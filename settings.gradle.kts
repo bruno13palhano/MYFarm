@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "MYFarm"
 include(":app")
- 
+include(":core")
