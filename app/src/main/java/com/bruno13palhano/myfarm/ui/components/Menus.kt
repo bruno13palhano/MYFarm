@@ -39,7 +39,12 @@ fun BottomMenu(navController: NavController) {
                         restoreState = true
                     }
                 },
-                icon = { Icon(imageVector = screen.icon, contentDescription = null) },
+                icon = {
+                    Icon(
+                        imageVector = screen.icon,
+                        contentDescription = stringResource(id = screen.resourceId)
+                    )
+                },
                 label = { Text(text = stringResource(id = screen.resourceId)) }
             )
         }
