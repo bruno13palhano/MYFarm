@@ -1,12 +1,14 @@
 package com.bruno13palhano.myfarm.ui.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.bruno13palhano.myfarm.ui.screens.HomeRoute
+import com.bruno13palhano.myfarm.ui.screens.ItemsRoute
+import com.bruno13palhano.myfarm.ui.screens.SettingsRoute
 
 @Composable
 fun MainNavGraph(
@@ -23,15 +25,9 @@ fun MainNavGraph(
             startDestination = MainDestinations.HOME_ROUTE,
             route = startDestination
         ) {
-            composable(route = MainDestinations.HOME_ROUTE) {
-                Text(text = "Home")
-            }
-            composable(route = MainDestinations.ITEMS_ROUTE) {
-                Text(text = "Items")
-            }
-            composable(route = MainDestinations.SETTINGS_ROUTE) {
-                Text(text = "Settings")
-            }
+            composable(route = MainDestinations.HOME_ROUTE) { HomeRoute() }
+            composable(route = MainDestinations.ITEMS_ROUTE) { ItemsRoute() }
+            composable(route = MainDestinations.SETTINGS_ROUTE) { SettingsRoute() }
         }
     }
 }
