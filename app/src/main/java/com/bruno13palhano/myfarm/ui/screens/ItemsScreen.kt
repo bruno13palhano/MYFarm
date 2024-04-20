@@ -19,15 +19,15 @@ import androidx.compose.ui.unit.dp
 import com.bruno13palhano.myfarm.R
 
 @Composable
-fun ItemsRoute() { ItemsScreen() }
+fun ItemsRoute() { ItemsScreen {} }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ItemsScreen() {
+private fun ItemsScreen(onAddButtonClick: () -> Unit) {
     Scaffold(
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.items_label)) }) },
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = {}) {
+            ExtendedFloatingActionButton(onClick = onAddButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = stringResource(id = R.string.add_button_description)
