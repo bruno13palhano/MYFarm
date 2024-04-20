@@ -2,5 +2,7 @@
     <string name="app_name">MYFarm</string>
     <string name="home_label">Home</string>
     <string name="items_label">Items</string>
+    <string name="new_item_label">New Item</string>
     <string name="settings_label">Settings</string>
+    <string name="add_button_description">Add button</string>
 </resources>
