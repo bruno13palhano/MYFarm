@@ -1,4 +1,4 @@
-package com.bruno13palhano.myfarm.ui.screens
+package com.bruno13palhano.myfarm.ui.screens.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

@@ -6,9 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.bruno13palhano.myfarm.ui.screens.HomeRoute
-import com.bruno13palhano.myfarm.ui.screens.ItemsRoute
-import com.bruno13palhano.myfarm.ui.screens.SettingsRoute
+import com.bruno13palhano.myfarm.ui.screens.home.HomeRoute
+import com.bruno13palhano.myfarm.ui.screens.items.ItemsRoute
+import com.bruno13palhano.myfarm.ui.screens.settings.SettingsRoute
 
 @Composable
 fun MainNavGraph(
