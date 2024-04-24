@@ -15,52 +15,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun Workspace() {
-    InitWorkspace()
+fun Workspace(drawPropertiesList: List<DrawProperties>) {
+    InitWorkspace(drawPropertiesList = drawPropertiesList)
 }
 
-@Preview
 @Composable
-private fun InitWorkspace() {
-
+private fun InitWorkspace(drawPropertiesList: List<DrawProperties>) {
     val unSelectedVertexColor = MaterialTheme.colorScheme.primary
     val selectedVertexColor = MaterialTheme.colorScheme.tertiary
 
-    val drawList = remember { mutableStateListOf<DrawProperties>() }
+    val drawList = remember { mutableStateListOf<DrawProperties>() }.apply {
+        addAll(drawPropertiesList)
+    }
+
     var touchIndex by remember { mutableIntStateOf(-1) }
     var size by remember { mutableStateOf(Size(0F, 0F)) }
-
-    drawList.add(
-        DrawProperties(
-            center = Offset(100F, 100F),
-            color = unSelectedVertexColor,
-            linesIndex = listOf(1)
-        )
-    )
-    drawList.add(
-        DrawProperties(
-            center = Offset(400F, 400F),
-            color = unSelectedVertexColor,
-            linesIndex = listOf(2)
-        )
-    )
-    drawList.add(
-        DrawProperties(
-            center = Offset(600F, 600F),
-            color = unSelectedVertexColor,
-        )
-    )
-    drawList.add(
-        DrawProperties(
-            center = Offset(400F, 800F),
-            color = unSelectedVertexColor,
-            linesIndex = listOf(1)
-        )
-    )
 
     Canvas(
         modifier = Modifier
@@ -112,16 +85,12 @@ private fun InitWorkspace() {
                     center = drawProperties.center,
                     radius = drawProperties.radius
                 )
-
-                if (drawProperties.linesIndex.isNotEmpty()) {
-                    drawProperties.linesIndex.forEach { lineIndex ->
-                        drawLine(
-                            color = selectedVertexColor,
-                            start = drawProperties.center,
-                            end = drawList[lineIndex].center
-                        )
-                    }
-                }
+                drawLines(
+                    drawScope = this,
+                    drawProperties = drawProperties,
+                    drawList = drawList,
+                    color = selectedVertexColor
+                )
             }
         }
 
@@ -132,15 +101,12 @@ private fun InitWorkspace() {
                     center = drawProperties.center,
                     radius = drawProperties.radius
                 )
-                if (drawProperties.linesIndex.isNotEmpty()) {
-                    drawProperties.linesIndex.forEach { lineIndex ->
-                        drawLine(
-                            color = selectedVertexColor,
-                            start = drawProperties.center,
-                            end = drawList[lineIndex].center
-                        )
-                    }
-                }
+                drawLines(
+                    drawScope = this,
+                    drawProperties = drawProperties,
+                    drawList = drawList,
+                    color = selectedVertexColor
+                )
             }
         }
     }
@@ -148,6 +114,23 @@ private fun InitWorkspace() {
 
 private fun isTouched(center: Offset, touchPosition: Offset, radius: Float): Boolean {
     return center.minus(touchPosition).getDistanceSquared() < (radius * radius * 4)
+}
+
+private fun drawLines(
+    drawScope: DrawScope,
+    drawProperties: DrawProperties,
+    drawList: List<DrawProperties>,
+    color: Color
+) {
+    if (drawProperties.linesIndex.isNotEmpty()) {
+        drawProperties.linesIndex.forEach { lineIndex ->
+            drawScope.drawLine(
+                color = color,
+                start = drawProperties.center,
+                end = drawList[lineIndex].center
+            )
+        }
+    }
 }
 
 data class DrawProperties(
