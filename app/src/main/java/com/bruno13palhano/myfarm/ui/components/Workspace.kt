@@ -38,14 +38,14 @@ private fun InitWorkspace() {
         DrawProperties(
             center = Offset(100F, 100F),
             color = unSelectedVertexColor,
-            lines = listOf(1)
+            linesIndex = listOf(1)
         )
     )
     drawList.add(
         DrawProperties(
             center = Offset(400F, 400F),
             color = unSelectedVertexColor,
-            lines = listOf(2)
+            linesIndex = listOf(2)
         )
     )
     drawList.add(
@@ -58,7 +58,7 @@ private fun InitWorkspace() {
         DrawProperties(
             center = Offset(400F, 800F),
             color = unSelectedVertexColor,
-            lines = listOf(1)
+            linesIndex = listOf(1)
         )
     )
 
@@ -113,12 +113,12 @@ private fun InitWorkspace() {
                     radius = drawProperties.radius
                 )
 
-                if (drawProperties.lines.isNotEmpty()) {
-                    drawProperties.lines.forEach { line ->
+                if (drawProperties.linesIndex.isNotEmpty()) {
+                    drawProperties.linesIndex.forEach { lineIndex ->
                         drawLine(
                             color = selectedVertexColor,
                             start = drawProperties.center,
-                            end = drawList[line].center
+                            end = drawList[lineIndex].center
                         )
                     }
                 }
@@ -132,12 +132,12 @@ private fun InitWorkspace() {
                     center = drawProperties.center,
                     radius = drawProperties.radius
                 )
-                if (drawProperties.lines.isNotEmpty()) {
-                    drawProperties.lines.forEach { line ->
+                if (drawProperties.linesIndex.isNotEmpty()) {
+                    drawProperties.linesIndex.forEach { lineIndex ->
                         drawLine(
                             color = selectedVertexColor,
                             start = drawProperties.center,
-                            end = drawList[line].center
+                            end = drawList[lineIndex].center
                         )
                     }
                 }
@@ -154,5 +154,5 @@ data class DrawProperties(
     val center: Offset,
     val radius: Float = 40F,
     val color: Color,
-    val lines: List<Int> = listOf()
+    val linesIndex: List<Int> = listOf()
 )
