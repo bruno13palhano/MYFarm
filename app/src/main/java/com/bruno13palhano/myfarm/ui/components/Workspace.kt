@@ -24,12 +24,18 @@ import com.bruno13palhano.myfarm.ui.common.Vertex
 import kotlinx.coroutines.launch
 
 @Composable
-fun Workspace(drawPropertiesList: List<DrawProperties>) {
-    InitWorkspace(drawPropertiesList = drawPropertiesList)
+fun Workspace(
+    drawPropertiesList: List<DrawProperties>,
+    canvasSize: (size: Size) -> Unit
+) {
+    InitWorkspace(drawPropertiesList = drawPropertiesList, canvasSize = canvasSize)
 }
 
 @Composable
-private fun InitWorkspace(drawPropertiesList: List<DrawProperties>) {
+private fun InitWorkspace(
+    drawPropertiesList: List<DrawProperties>,
+    canvasSize: (size: Size) -> Unit
+) {
     val unSelectedVertexColor = MaterialTheme.colorScheme.primary
     val selectedVertexColor = MaterialTheme.colorScheme.tertiary
 
@@ -150,6 +156,7 @@ private fun InitWorkspace(drawPropertiesList: List<DrawProperties>) {
             }
     ) {
         size = this.size
+        canvasSize(size)
 
         drawList.forEachIndexed { index, drawProperties ->
             if (touchIndex != index) {
