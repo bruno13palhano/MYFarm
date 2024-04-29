@@ -1,0 +1,23 @@
+import kotlin.Int;
+import kotlin.collections.List;
+
+CREATE TABLE ItemTable (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    indx INTEGER NOT NULL,
+    x REAL NOT NULL,
+    y REAL NOT NULL,
+    radius REAL NOT NULL,
+    successors TEXT AS List<Int> NOT NULL
+);
+
+insert:
+INSERT INTO ItemTable(indx, x, y, radius, successors) VALUES (?,?,?,?,?);
+
+update:
+UPDATE ItemTable SET indx = ?, x = ?, y = ?, radius = ?, successors = ? WHERE id = ?;
+
+delete:
+DELETE FROM ItemTable WHERE id = ?;
+
+getAll:
+SELECT ItemTable.* FROM ItemTable;
