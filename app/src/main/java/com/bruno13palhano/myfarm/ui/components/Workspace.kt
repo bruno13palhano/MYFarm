@@ -72,7 +72,11 @@ private fun InitWorkspace(
                                 val endPoint = drawItem.vertex.center.plus(dragAmount)
 
                                 drawList[touchIndex] = drawItem.copy(
-                                    vertex = Vertex(center = endPoint, radius = 50F, linesIndex = drawItem.vertex.linesIndex),
+                                    vertex = Vertex(
+                                        center = endPoint,
+                                        radius = 50F,
+                                        edges = drawItem.vertex.edges
+                                    ),
                                     color = selectedVertexColor
                                 )
                             }
@@ -81,7 +85,11 @@ private fun InitWorkspace(
                             val item = drawList.getOrNull(touchIndex)
                             item?.let { drawItem ->
                                 drawList[touchIndex] = drawItem.copy(
-                                    vertex = Vertex(center = drawItem.vertex.center, radius = 40F, linesIndex = drawItem.vertex.linesIndex),
+                                    vertex = Vertex(
+                                        center = drawItem.vertex.center,
+                                        radius = 40F,
+                                        edges = drawItem.vertex.edges
+                                    ),
                                     color = unSelectedVertexColor
                                 )
                             }
@@ -129,7 +137,7 @@ private fun InitWorkspace(
                                     vertex = Vertex(
                                         center = drawItem.vertex.center,
                                         radius = 50F,
-                                        linesIndex = drawItem.vertex.linesIndex
+                                        edges = drawItem.vertex.edges
                                     ),
                                     color = selectedVertexColor
                                 )
@@ -145,7 +153,7 @@ private fun InitWorkspace(
                                     vertex = Vertex(
                                         center = drawItem.vertex.center,
                                         radius = 40F,
-                                        linesIndex = drawItem.vertex.linesIndex
+                                        edges = drawItem.vertex.edges
                                     ),
                                     color = unSelectedVertexColor
                                 )
@@ -202,13 +210,15 @@ private fun drawLines(
     drawList: List<DrawProperties>,
     color: Color
 ) {
-    if (drawProperties.vertex.linesIndex.isNotEmpty()) {
-        drawProperties.vertex.linesIndex.forEach { lineIndex ->
-            drawScope.drawLine(
-                color = color,
-                start = drawProperties.vertex.center,
-                end = drawList[lineIndex].vertex.center
-            )
+    if (drawProperties.vertex.edges.isNotEmpty()) {
+        drawProperties.vertex.edges.forEach { edgeIndex ->
+            if (edgeIndex != -1) {
+                drawScope.drawLine(
+                    color = color,
+                    start = drawProperties.vertex.center,
+                    end = drawList[edgeIndex].vertex.center
+                )
+            }
         }
     }
 }
