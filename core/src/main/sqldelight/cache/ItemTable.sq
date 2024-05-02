@@ -7,17 +7,24 @@ CREATE TABLE ItemTable (
     x REAL NOT NULL,
     y REAL NOT NULL,
     radius REAL NOT NULL,
-    successors TEXT AS List<Int> NOT NULL
+    successors TEXT AS List<Int> NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
 );
 
 insert:
-INSERT INTO ItemTable(indx, x, y, radius, successors) VALUES (?,?,?,?,?);
+INSERT INTO ItemTable(indx, x, y, radius, successors, name, description)
+VALUES (?,?,?,?,?,?,?);
 
 update:
-UPDATE ItemTable SET indx = ?, x = ?, y = ?, radius = ?, successors = ? WHERE id = ?;
+UPDATE ItemTable SET indx = ?, x = ?, y = ?, radius = ?, successors = ?, name = ?, description = ?
+WHERE id = ?;
 
 delete:
 DELETE FROM ItemTable WHERE id = ?;
+
+getById:
+SELECT ItemTable.* FROM ItemTable WHERE id = ?;
 
 getAll:
 SELECT ItemTable.* FROM ItemTable;
