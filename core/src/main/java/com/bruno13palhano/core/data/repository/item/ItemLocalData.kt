@@ -33,6 +33,19 @@ internal class ItemLocalData @Inject constructor(
         itemData.delete(id = id)
     }
 
+    override suspend fun update(data: Item) {
+        itemData.update(
+            indx = data.index.toLong(),
+            x = data.x.toDouble(),
+            y = data.y.toDouble(),
+            radius = data.radius.toDouble(),
+            successors = data.successorsIndices,
+            name = data.name,
+            description = data.description,
+            id = data.id
+        )
+    }
+
     override fun getById(id: Long): Flow<Item> {
         return itemData.getById(id = id, mapper = ::mapToItem)
             .asFlow()

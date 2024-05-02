@@ -17,6 +17,10 @@ internal class ItemRepositoryImpl @Inject constructor(
         itemData.delete(id = id)
     }
 
+    override suspend fun update(data: Item) {
+        itemData.update(data = data)
+    }
+
     override fun getById(id: Long): Flow<Item> {
         return itemData.getById(id = id)
     }
