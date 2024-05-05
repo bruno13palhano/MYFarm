@@ -26,20 +26,30 @@ import kotlinx.coroutines.launch
 @Composable
 fun Workspace(
     drawPropertiesList: List<DrawProperties>,
-    canvasSize: (size: Size) -> Unit
+    onDragItemStart: (id: Long) -> Unit,
+    onDragItemEnd: (id: Long, DrawProperties) -> Unit,
+    canvasSize: (size: Size) -> Unit,
 ) {
-    InitWorkspace(drawPropertiesList = drawPropertiesList, canvasSize = canvasSize)
+    InitWorkspace(
+        drawPropertiesList = drawPropertiesList,
+        onDragItemStart = onDragItemStart,
+        onDragItemEnd = onDragItemEnd,
+        canvasSize = canvasSize
+    )
 }
 
 @Composable
 private fun InitWorkspace(
     drawPropertiesList: List<DrawProperties>,
+    onDragItemStart: (id: Long) -> Unit,
+    onDragItemEnd: (id: Long, DrawProperties) -> Unit,
     canvasSize: (size: Size) -> Unit
 ) {
     val unSelectedVertexColor = MaterialTheme.colorScheme.primary
     val selectedVertexColor = MaterialTheme.colorScheme.tertiary
 
     val drawList = remember { mutableStateListOf<DrawProperties>() }.apply {
+        clear()
         addAll(drawPropertiesList)
     }
 
@@ -58,10 +68,15 @@ private fun InitWorkspace(
                             touchIndex = -1
                             drawList.forEachIndexed { index, drawProperties ->
                                 val isTouched =
-                                    isTouched(drawProperties.vertex.center, offset, drawProperties.vertex.radius)
+                                    isTouched(
+                                        drawProperties.vertex.center,
+                                        offset,
+                                        drawProperties.vertex.radius
+                                    )
 
                                 if (isTouched) {
                                     touchIndex = index
+                                    onDragItemStart(drawProperties.vertex.id)
                                 }
                             }
                         },
@@ -73,6 +88,7 @@ private fun InitWorkspace(
 
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
+                                        id = drawItem.vertex.id,
                                         center = endPoint,
                                         radius = 50F,
                                         edges = drawItem.vertex.edges
@@ -86,12 +102,14 @@ private fun InitWorkspace(
                             item?.let { drawItem ->
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
+                                        id = drawItem.vertex.id,
                                         center = drawItem.vertex.center,
                                         radius = 40F,
                                         edges = drawItem.vertex.edges
                                     ),
                                     color = unSelectedVertexColor
                                 )
+                                onDragItemEnd(drawItem.vertex.id, drawList[touchIndex])
                             }
                         }
                     )
@@ -111,7 +129,7 @@ private fun InitWorkspace(
 
                                 if (isTouched) {
                                     touchIndex = index
-                                    println("Vertex click")
+                                    onDragItemStart(drawProperties.vertex.id)
                                 }
                             }
                         },
@@ -128,6 +146,7 @@ private fun InitWorkspace(
 
                                 if (isTouched) {
                                     touchIndex = index
+                                    onDragItemStart(drawProperties.vertex.id)
                                 }
                             }
                             val item = drawList.getOrNull(touchIndex)
@@ -135,6 +154,7 @@ private fun InitWorkspace(
                             item?.let { drawItem ->
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
+                                        id = drawItem.vertex.id,
                                         center = drawItem.vertex.center,
                                         radius = 50F,
                                         edges = drawItem.vertex.edges
@@ -151,6 +171,7 @@ private fun InitWorkspace(
                             item?.let { drawItem ->
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
+                                        id = drawItem.vertex.id,
                                         center = drawItem.vertex.center,
                                         radius = 40F,
                                         edges = drawItem.vertex.edges
