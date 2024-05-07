@@ -1,9 +1,10 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.sqldelight)
+
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("app.cash.sqldelight") version "2.0.0-alpha05"
 }
 
 android {
@@ -55,6 +56,6 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
     implementation("com.google.dagger:hilt-android:2.48")
-    implementation("app.cash.sqldelight:android-driver:2.0.0-alpha05")
-    implementation("app.cash.sqldelight:coroutines-extensions:2.0.0-alpha05")
+    implementation(libs.android.driver)
+    implementation(libs.coroutines.extensions)
 }
