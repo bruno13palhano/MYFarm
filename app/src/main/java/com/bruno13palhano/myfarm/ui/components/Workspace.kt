@@ -19,6 +19,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
 import com.bruno13palhano.myfarm.ui.common.DrawProperties
 import com.bruno13palhano.myfarm.ui.common.Vertex
 import kotlinx.coroutines.launch
@@ -58,6 +60,8 @@ private fun InitWorkspace(
 
     val scope = rememberCoroutineScope()
 
+    val textMeasure = rememberTextMeasurer()
+
     Canvas(
         modifier = Modifier
             .fillMaxSize()
@@ -89,8 +93,9 @@ private fun InitWorkspace(
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
                                         id = drawItem.vertex.id,
+                                        label = drawItem.vertex.label,
                                         center = endPoint,
-                                        radius = 50F,
+                                        radius = 60F,
                                         edges = drawItem.vertex.edges
                                     ),
                                     color = selectedVertexColor
@@ -103,8 +108,9 @@ private fun InitWorkspace(
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
                                         id = drawItem.vertex.id,
+                                        label = drawItem.vertex.label,
                                         center = drawItem.vertex.center,
-                                        radius = 40F,
+                                        radius = 50F,
                                         edges = drawItem.vertex.edges
                                     ),
                                     color = unSelectedVertexColor
@@ -155,8 +161,9 @@ private fun InitWorkspace(
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
                                         id = drawItem.vertex.id,
+                                        label = drawItem.vertex.label,
                                         center = drawItem.vertex.center,
-                                        radius = 50F,
+                                        radius = 60F,
                                         edges = drawItem.vertex.edges
                                     ),
                                     color = selectedVertexColor
@@ -172,8 +179,9 @@ private fun InitWorkspace(
                                 drawList[touchIndex] = drawItem.copy(
                                     vertex = Vertex(
                                         id = drawItem.vertex.id,
+                                        label = drawItem.vertex.label,
                                         center = drawItem.vertex.center,
-                                        radius = 40F,
+                                        radius = 50F,
                                         edges = drawItem.vertex.edges
                                     ),
                                     color = unSelectedVertexColor
@@ -200,6 +208,16 @@ private fun InitWorkspace(
                     drawList = drawList,
                     color = selectedVertexColor
                 )
+
+                val textSize = textMeasure.measure(drawProperties.vertex.label).size
+                drawText(
+                    text = drawProperties.vertex.label,
+                    textMeasurer = textMeasure,
+                    topLeft = Offset(
+                        x = drawProperties.vertex.center.x - (textSize.width / 2),
+                        y = drawProperties.vertex.center.y - (textSize.height / 2)
+                    ),
+                )
             }
         }
 
@@ -215,6 +233,16 @@ private fun InitWorkspace(
                     drawProperties = drawProperties,
                     drawList = drawList,
                     color = selectedVertexColor
+                )
+
+                val textSize = textMeasure.measure(drawProperties.vertex.label).size
+                drawText(
+                    text = drawProperties.vertex.label,
+                    textMeasurer = textMeasure,
+                    topLeft = Offset(
+                        x = drawProperties.vertex.center.x - (textSize.width / 2),
+                        y = drawProperties.vertex.center.y - (textSize.height / 2)
+                    ),
                 )
             }
         }
