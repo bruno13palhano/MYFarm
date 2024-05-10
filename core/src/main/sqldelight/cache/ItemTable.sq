@@ -3,7 +3,6 @@ import kotlin.collections.List;
 
 CREATE TABLE ItemTable (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    indx INTEGER NOT NULL,
     x REAL NOT NULL,
     y REAL NOT NULL,
     radius REAL NOT NULL,
@@ -13,11 +12,11 @@ CREATE TABLE ItemTable (
 );
 
 insert:
-INSERT INTO ItemTable(indx, x, y, radius, successors, name, description)
-VALUES (?,?,?,?,?,?,?);
+INSERT INTO ItemTable(x, y, radius, successors, name, description)
+VALUES (?,?,?,?,?,?);
 
 update:
-UPDATE ItemTable SET indx = ?, x = ?, y = ?, radius = ?, successors = ?, name = ?, description = ?
+UPDATE ItemTable SET x = ?, y = ?, radius = ?, successors = ?, name = ?, description = ?
 WHERE id = ?;
 
 delete:
