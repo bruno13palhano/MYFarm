@@ -19,7 +19,6 @@ internal class ItemLocalData @Inject constructor(
 ): Data<Item> {
     override suspend fun insert(data: Item) {
         itemData.insert(
-            indx = data.index.toLong(),
             x = data.x.toDouble(),
             y = data.y.toDouble(),
             radius = data.radius.toDouble(),
@@ -35,7 +34,6 @@ internal class ItemLocalData @Inject constructor(
 
     override suspend fun update(data: Item) {
         itemData.update(
-            indx = data.index.toLong(),
             x = data.x.toDouble(),
             y = data.y.toDouble(),
             radius = data.radius.toDouble(),
@@ -59,7 +57,6 @@ internal class ItemLocalData @Inject constructor(
 
     private fun mapToItem(
         id: Long,
-        index: Long,
         x: Double,
         y: Double,
         radius: Double,
@@ -68,7 +65,6 @@ internal class ItemLocalData @Inject constructor(
         description: String
     ) = Item(
         id = id,
-        index = index.toInt(),
         x = x.toFloat(),
         y = y.toFloat(),
         radius = radius.toFloat(),
