@@ -29,13 +29,13 @@ class HomeViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    fun initG() {
+    fun getVertices() {
         viewModelScope.launch {
            itemRepository.getAll().collect {
                _dList.value = it.map { item ->
-                   println("Items: $it")
                    Vertex(
                        id = item.id,
+                       label = item.name,
                        center = Offset(x = item.x, y = item.y),
                        radius = item.radius,
                        edges = item.successorsIndices
@@ -51,11 +51,6 @@ class HomeViewModel @Inject constructor(
                 addAll(currentItem.successorsIndices)
             }
             successors.add(end)
-
-            println("currentItem: ${currentItem.copy(
-                id = start.toLong()+1,
-                successorsIndices = successors,
-            )}")
 
             itemRepository.update(
                 data = currentItem.copy(
@@ -74,6 +69,26 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun updateItem(
+        id: Long,
+        x: Float,
+        y: Float,
+        radius: Float,
+        edges: List<Int>
+    ) {
+        viewModelScope.launch {
+            itemRepository.update(
+                data = currentItem.copy(
+                    id = id,
+                    x = x,
+                    y = y,
+                    radius = radius,
+                    successorsIndices = edges
+                )
+            )
+        }
+    }
+
     fun addVertex(
         name: String,
         description: String,
@@ -83,16 +98,6 @@ class HomeViewModel @Inject constructor(
         radius: Float = 40F
     ) {
         viewModelScope.launch {
-            println("Item: ${Item(
-                id = 0L,
-                index = index,
-                x = x,
-                y = y,
-                radius = radius,
-                successorsIndices = listOf(),
-                name = name,
-                description = description,
-            )}")
             itemRepository.insert(
                 data = Item(
                     id = 0L,
