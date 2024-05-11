@@ -265,7 +265,7 @@ private fun drawLines(
                 drawScope.drawLine(
                     color = color,
                     start = drawProperties.vertex.center,
-                    end = drawList[edgeIndex].vertex.center
+                    end = drawList.first { it.vertex.id  == edgeIndex.toLong() }.vertex.center
                 )
             }
         }
