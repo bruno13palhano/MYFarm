@@ -19,10 +19,10 @@ class HomeViewModel @Inject constructor(
     @DefaultItemRepository private val itemRepository: ItemRepository
 ): ViewModel() {
 
-    private var currentItem = Item(0L,0,0F,0F,0F,listOf(),"","")
+    private var currentItem = Item(0L,0F,0F,0F,listOf(),"","")
 
-    private var _dList = MutableStateFlow<List<Vertex>>(listOf())
-    val dList = _dList
+    private var _vertices = MutableStateFlow<List<Vertex>>(listOf())
+    val vertices = _vertices
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(5_000),
@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
     fun getVertices() {
         viewModelScope.launch {
            itemRepository.getAll().collect {
-               _dList.value = it.map { item ->
+               _vertices.value = it.map { item ->
                    Vertex(
                        id = item.id,
                        label = item.name,
@@ -45,23 +45,23 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun addEdge(start: Int, end: Int) {
+    fun addEdge(startId: Long, endId: Long) {
         viewModelScope.launch {
             val successors = mutableListOf<Int>().apply {
                 addAll(currentItem.successorsIndices)
             }
-            successors.add(end)
+            successors.add(endId.toInt())
 
             itemRepository.update(
                 data = currentItem.copy(
-                    id = start.toLong()+1,
+                    id = startId,
                     successorsIndices = successors
                 )
             )
         }
     }
 
-    fun getCurrentItem(id: Long) {
+    fun getCurrentVertex(id: Long) {
         viewModelScope.launch {
             itemRepository.getById(id = id).collect {
                 currentItem = it
@@ -69,10 +69,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateItem(
+    fun updateVertex(
         id: Long,
-        x: Float,
-        y: Float,
+        center: Offset,
         radius: Float,
         edges: List<Int>
     ) {
@@ -80,8 +79,8 @@ class HomeViewModel @Inject constructor(
             itemRepository.update(
                 data = currentItem.copy(
                     id = id,
-                    x = x,
-                    y = y,
+                    x = center.x,
+                    y = center.y,
                     radius = radius,
                     successorsIndices = edges
                 )
@@ -92,18 +91,15 @@ class HomeViewModel @Inject constructor(
     fun addVertex(
         name: String,
         description: String,
-        index: Int,
-        x: Float = 100F,
-        y: Float = 100F,
-        radius: Float = 40F
+        center: Offset = Offset(x = 100F, y = 100F),
+        radius: Float = 50F
     ) {
         viewModelScope.launch {
             itemRepository.insert(
                 data = Item(
                     id = 0L,
-                    index = index,
-                    x = x,
-                    y = y,
+                    x = center.x,
+                    y = center.y,
                     radius = radius,
                     successorsIndices = listOf(),
                     name = name,
