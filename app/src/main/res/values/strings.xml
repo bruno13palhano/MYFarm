@@ -4,5 +4,8 @@
     <string name="items_label">Items</string>
     <string name="new_item_label">New Item</string>
     <string name="settings_label">Settings</string>
+    <string name="add_vertex_label">Add a Vertex</string>
+    <string name="delete_vertex_label">Delete a vertex</string>
     <string name="add_button_description">Add button</string>
+    <string name="more_options_menu_description">More options</string>
 </resources>
