@@ -2,8 +2,8 @@ package com.bruno13palhano.myfarm.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -20,7 +20,9 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.bruno13palhano.myfarm.R
-import com.bruno13palhano.myfarm.ui.navigation.MainDestinations
+import com.bruno13palhano.myfarm.ui.navigation.HomeRoute
+import com.bruno13palhano.myfarm.ui.navigation.ItemsRoute
+import com.bruno13palhano.myfarm.ui.navigation.SettingsRoute
 
 @Composable
 fun MoreOptionsMenu(
@@ -76,19 +78,19 @@ fun BottomMenu(navController: NavController) {
     }
 }
 
-sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
-    data object Home: Screen(
-        route = MainDestinations.HOME_ROUTE,
+sealed class Screen<T: Any>(val route: T, val icon: ImageVector, @StringRes val resourceId: Int) {
+    data object Home: Screen<HomeRoute>(
+        route = HomeRoute,
         icon = Icons.Filled.Home,
         resourceId = R.string.home_label
     )
-    data object Items: Screen(
-        route = MainDestinations.ITEMS_ROUTE,
-        icon = Icons.Filled.List,
+    data object Items: Screen<ItemsRoute>(
+        route = ItemsRoute,
+        icon = Icons.AutoMirrored.Filled.List,
         resourceId = R.string.items_label
     )
-    data object Settings: Screen(
-        route = MainDestinations.SETTINGS_ROUTE,
+    data object Settings: Screen<SettingsRoute>(
+        route = SettingsRoute,
         icon = Icons.Filled.Settings,
         resourceId = R.string.settings_label
     )
